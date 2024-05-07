@@ -37,12 +37,15 @@ describe('todoService', () => {
   });
 
   describe('getArrayWithEvenNumbers', () => {
-    it('should fetch 3 todos', async () => {
+    beforeEach(() => {
       fetch.mockImplementation(() =>
         Promise.resolve({
           json: () => Promise.resolve(expectedTodo),
         })
       );
+    })
+    it('should fetch 3 todos', async () => {
+
       const results = await getEvenNumberedTodos(3);
       expect(results).toStrictEqual([{
         "status": "fulfilled",
@@ -54,6 +57,11 @@ describe('todoService', () => {
         "status": "fulfilled",
         "value": {"completed": true, "id": 10, "title": "accusamus eos facilis sint et aut voluptatem", "userId": 1}
       }]);
+    });
+
+    it('should fetch default 20 todos', async () => {
+      const results = await getEvenNumberedTodos();
+      expect(results.length).toEqual(20);
     });
   });
 });
